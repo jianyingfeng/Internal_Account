@@ -1,4 +1,0 @@
-name: 获取用户信息列表
-request:
-    url: /accounts/list
-    method: GET

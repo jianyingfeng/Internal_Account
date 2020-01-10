@@ -1,9 +1,0 @@
-name: 发送注册验证码
-request:
-    method: POST
-    url: /tiger/user/phone/code/registration
-    json:
-        phone_number: $phone_number
-        geetest_challenge: test
-        geetest_seccode: test
-        geetest_validate: test

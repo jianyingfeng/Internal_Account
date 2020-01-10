@@ -1,4 +1,0 @@
-name: 获取用户第三方绑定状态
-request:
-    url: /accounts/$user_id/oauth/binding/status
-    method: GET

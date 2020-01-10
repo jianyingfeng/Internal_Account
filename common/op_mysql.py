@@ -24,13 +24,6 @@ class OpMysql(object):
         except BaseException as e:
             return '001'
 
-    # 清除用户主账号信息：手机号、用户名
-    def clear_basic_auth(self, column_name, column_value):
-        table_name = 'basic_auth'
-        result = self.cur.execute('UPDATE {} SET {}=%s WHERE {}=%s'.format(table_name, column_name, column_name), (None, column_value))
-        if self.cur.rowcount == 1:
-            self.conn.commit()
-
     # 删除内部账号二次验证名单，返回None
     def internal_account_delete_two_step_verification(self, user_id):
         result = self.cur.execute('DELETE FROM two_step_verification WHERE user_id=%s', (user_id, ))

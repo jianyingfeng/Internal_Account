@@ -1,8 +1,0 @@
-name: 发送注册验证码
-request:
-    method: POST
-    url: /tiger/v3/web/accounts/captcha/register/phone
-    headers:
-        X-Captcha-Ticket: $ticket
-    json:
-        phone_number: $phone_number

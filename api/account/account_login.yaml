@@ -1,9 +1,0 @@
-name: 账号密码登录
-base_url: ${ENV(tiger_api_host)}
-request:
-    url: /tiger/accounts/login
-    method: POST
-    json:
-        identity: $identity
-        password: $password
-        pid: 65edCTyg

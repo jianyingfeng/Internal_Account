@@ -1,9 +1,0 @@
-name: 发送注册验证码
-request:
-    method: POST
-    url: /api/user/register/phone/code
-    json:
-        phone_number: $phone_number
-        geetest_challenge: 87a3de388065d828e5093d1e911c6ea6
-        geetest_validate: 4f4ff67f139af66d741d395796695dec
-        geetest_seccode: 4f4ff67f139af66d741d395796695dec|jordan

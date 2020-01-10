@@ -1,4 +1,0 @@
-name: 获取产品信息
-request:
-    method: GET
-    url: /accounts/products/$pid

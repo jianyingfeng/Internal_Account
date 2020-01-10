@@ -1,8 +1,0 @@
-name: 通用验证码之发送
-request:
-    method: POST
-    url: /tiger/v3/app/accounts/captcha/common
-    headers:
-        X-Captcha-Ticket: ${get_captcha_ticket()}
-    json:
-        phone_number: $phone_number

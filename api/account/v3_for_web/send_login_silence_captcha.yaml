@@ -1,8 +1,0 @@
-name: 发送登录验证码（静默注册版本）
-request:
-    method: POST
-    url: /tiger/v3/web/accounts/captcha/login/silence
-    headers:
-        X-Captcha-Ticket: ${get_captcha_ticket()}
-    json:
-        phone_number: $phone_number

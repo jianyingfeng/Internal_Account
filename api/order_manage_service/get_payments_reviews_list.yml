@@ -1,6 +1,0 @@
-name: 订单服务Service：获取订单的付款单审核列表
-request:
-    method: GET
-    url: /orders/payments/reviews?orderIds=$orderIds
-validate:
-    - eq: [status_code, 200]

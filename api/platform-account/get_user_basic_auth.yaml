@@ -1,4 +1,0 @@
-name: 通过用户ID获取主账号
-request:
-    method: GET
-    url: /accounts/$user_id/basic_auth

@@ -1,8 +1,0 @@
-name: 发送绑定手机验证码
-request:
-    method: POST
-    url: /tiger/v3/web/accounts/captcha/phone/bind
-    headers:
-        Authorization: $token
-    json:
-        phone_number: $phone_number

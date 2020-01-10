@@ -1,7 +1,0 @@
-name: 获取用户信息
-base_url: ${ENV(platform_tiger_api_host)}
-request:
-    url: /accounts/$user_id
-    method: GET
-    # 可以获取到的信息： "id", "bcmid", "nickname", "fullname", "avatar_url", "username", "email", "phone_number", "sex", 
-    # "birthday", "description", "qq", "remark", "grade", "gold", "product_id"

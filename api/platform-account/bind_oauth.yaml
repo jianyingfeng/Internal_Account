@@ -1,9 +1,0 @@
-name: 绑定第三方账号
-request:
-    url: /accounts/oauth/bind
-    method: POST
-    json:
-        user_id: $user_id
-        unionid: $unionid
-        openid: $unionid
-        appid: $appid

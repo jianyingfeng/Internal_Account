@@ -1,8 +1,0 @@
-name: 解绑第三方账号
-request:
-    url: /accounts/oauth/unbind
-    method: POST
-    json:
-        user_id: $user_id
-        oauth_type: $oauth_type
-        oauth_version: V3

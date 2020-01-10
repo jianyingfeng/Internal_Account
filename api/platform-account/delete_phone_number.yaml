@@ -1,4 +1,0 @@
-name: 解绑手机号
-request:
-    method: DELETE
-    url: /accounts/$user_id/phone_number

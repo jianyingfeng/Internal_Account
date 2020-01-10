@@ -1,6 +1,0 @@
-name: 解绑微信
-request:
-    method: PATCH
-    url: /tiger/v3/web/accounts/oauth/wechat/unbind
-    headers:
-        Authorization: $token
