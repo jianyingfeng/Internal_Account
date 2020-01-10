@@ -1,6 +1,6 @@
 #### 项目说明
 
-- internal_account分支维护：内部账号、统一用户中心权限相关的自动化
+- `internal_account` 分支维护：内部账号、统一用户中心权限相关的自动化
 
 #### 测试数据准备
 
@@ -15,7 +15,7 @@
 
 #### 依赖包
 
-- python版本：3.0+
+- python版本：3.6+
 - 安装所有依赖包: `pip install -r requirements.txt`
 
 #### 运行脚本
