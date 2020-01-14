@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # python连接redis
 import redis
 import sys

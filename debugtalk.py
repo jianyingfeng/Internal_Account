@@ -1,13 +1,11 @@
+# encoding: utf-8
+
 import os
 import time
 from common import read_config
 from common.util import *
 from common.op_mysql import OpMysql
 from common.op_redis import OpRedis
-
-# 解决Jenkins执行python文件时遇到中文报错
-import sys, codecs
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 # 读取 .env 配置
 TEST_ENV = os.environ['environment']
