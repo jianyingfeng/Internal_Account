@@ -1,0 +1,53 @@
+- config:
+    name: 通过批量邮箱获取内部用户id
+    base_url: ${ENV(internal_account_service_host)}
+    variables:
+        - unexist_internal_user_email: "codemaommmm@123.com"
+
+- test:
+    name: emails长度为1，email存在任职状态正常
+    request:
+        method: POST
+        url: /accounts/emails
+        json:
+            emails: ["${internal_source_user_email()}"]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content.0, 2]
+        - eq: [content.0.id, '${internal_source_user_id()}']
+        - eq: [content.0.email, "${internal_source_user_email()}"]
+
+- test:
+    name: emails长度为1，email不存在
+    request:
+        method: POST
+        url: /accounts/emails
+        json:
+            emails: [$unexist_internal_user_email]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 0]
+
+- test:
+    name: emails长度为1，email为空字符串
+    request:
+        method: POST
+        url: /accounts/emails
+        json:
+            emails: [""]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 0]
+
+- test:
+    name: emails长度为0
+    request:
+        method: POST
+        url: /accounts/emails
+        json:
+            emails: []
+    validate:
+        - eq: [status_code, 400]
