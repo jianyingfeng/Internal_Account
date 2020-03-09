@@ -8,10 +8,10 @@
     name: 用户ID存在（正式员工-未冻结）-fields包含所有支持参数
     request:
         method: GET
-        url: /accounts/${internal_source_user_id()}/employee?fields=id,job_number,department,job_post,job_position,admin_tree_path,reserve_tree_path,person_in_charge,admin,reserve,entry_date,last_work_date,place
+        url: /accounts/${internal_source_user_id()}/employee?fields=id,job_number,department,job_post,job_position,admin_tree_path,reserve_tree_path,person_in_charge,admin,reserve,entry_date,last_work_date,place,job_type
     validate:
         - eq: [status_code, 200]
-        - length_equals: [content, 13]
+        - length_equals: [content, 14]
         - eq: [content.id, '${internal_source_user_id()}']
         - contains: [content, department]
         - contains: [content, job_post]
@@ -36,7 +36,7 @@
         url: /accounts/${internal_source_user_id()}/employee
     validate:
         - eq: [status_code, 200]
-        - length_equals: [content, 13]
+        - length_equals: [content, 14]
         - eq: [content.id, '${internal_source_user_id()}']
         - contains: [content, department]
         - contains: [content, job_post]
