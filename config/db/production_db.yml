@@ -1,18 +1,16 @@
-# 避免读取不存在的db文件报错，这里配置为dev数据
 mysql:
   account:
-    host: rm-bp173j25673ah67z8ko.mysql.rds.aliyuncs.com
-    user: TestDep
-    password: 4Ehp1ndpfnlN9D0qvg4SZuig
+    host: ""
+    user: ""
+    password: ""
     database: account
   internal_account:
-    host: rm-bp1udh67050zd1n0b115.mysql.rds.aliyuncs.com
-    user: TestDep
-    password: 4Ehp1ndpfnlN9D0qvg4SZuig
+    host: ""
+    user: ""
+    password: ""
     database: internal_account
     
 redis:
-  # 需要开启VPN
-  host: r-bp19c78721368bd4371.redis.rds.aliyuncs.com
+  host: ""
   port: 6379
-  password: liuWcl8hj3InVQONzonkIeNa
+  password: ""
