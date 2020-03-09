@@ -1,13 +1,13 @@
 mysql:
   account:
     host: rm-bp1orqjl80dle29ur878.mysql.rds.aliyuncs.com
-    user: TestDep
-    password: 4Ehp1ndpfnlN9D0qvg4SZuig
+    user: maxiaoqian
+    password: gB3h0VWWy8dpJAdhPkFsCeTj
     database: account
   internal_account:
     host: rm-bp1orqjl80dle29ur878.mysql.rds.aliyuncs.com
-    user: TestDep
-    password: 4Ehp1ndpfnlN9D0qvg4SZuig
+    user: maxiaoqian
+    password: gB3h0VWWy8dpJAdhPkFsCeTj
     database: internal_account
 
 redis:
