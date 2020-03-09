@@ -70,7 +70,7 @@ def internal_account_delete_two_step_verification(user_id):
     opmysql_internal_account.internal_account_delete_two_step_verification(user_id)
 
 # 初始化mysql配置并且跳过正式环境
-get_mysql_config_account()
+get_mysql_config_internal_account()
 
 # 读取内部账号 redis 配置
 def get_redis_config():
