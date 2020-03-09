@@ -9,7 +9,6 @@
     name: user_id存在并且用户不在二次验证名单中
     skipIf: ${is_production()}
     setup_hooks:
-        - ${get_mysql_config_internal_account()}
         - ${internal_account_delete_two_step_verification($test_internal_user_id)}
     api: api/internal_account_service/post_two_step_verification.yml
     variables:
@@ -20,8 +19,6 @@
 - test:
     name: user_id存在并且用户在二次验证名单中
     skipIf: ${is_production()}
-    setup_hooks:
-        - ${get_mysql_config_internal_account()}
     api: api/internal_account_service/post_two_step_verification.yml
     variables:
         - user_id: $test_internal_user_id

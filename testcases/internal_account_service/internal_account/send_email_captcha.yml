@@ -10,7 +10,6 @@
     name: email存在-且未达到10次
     skipIf: ${is_production()}
     setup_hooks:
-        - ${get_redis_config()}
         - ${set_send_email_captcha_limit($exist_internal_account_email, 0)}
         - ${sleep_N_secs(1)}
     api: api/internal_account_service/send_email_captcha.yml
@@ -33,7 +32,6 @@
     name: 发送次数已达限制：email存在已发送10次
     skipIf: ${is_production()}
     setup_hooks:
-        - ${get_redis_config()}
         - ${set_send_email_captcha_limit($exist_internal_account_email, 10)}
     api: api/internal_account_service/send_email_captcha.yml
     variables:

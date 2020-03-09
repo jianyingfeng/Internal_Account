@@ -4,8 +4,6 @@
     variables:
         - exist_phone_number: ${internal_source_user_phone_number()}
         - unexist_internal_account_phone_number: 13400000000
-    setup_hooks:
-        - ${get_redis_config()}
 
 - test:
     name: 发送手机验证码：phone_number存在

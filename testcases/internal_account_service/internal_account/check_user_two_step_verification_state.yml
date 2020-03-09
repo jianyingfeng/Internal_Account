@@ -15,8 +15,6 @@
 - test:
     name: 用户在二次验证名单中-state应该返回true
     skipIf: ${is_production()}
-    setup_hooks:
-        - ${get_mysql_config_internal_account()}
     api: api/internal_account_service/check_user_two_step_verification_state.yml
     variables:
         - user_id: $test_internal_user_id
