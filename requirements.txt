@@ -1,4 +1,4 @@
-httprunner==2.2.5
-requests==2.22.0
-pymysql==0.9.2
-redis==3.2.1
+httprunner>=2.0.0
+requests
+pymysql
+redis
