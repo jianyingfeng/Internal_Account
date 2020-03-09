@@ -39,6 +39,8 @@
     validate:
         - eq: [status_code, 422]
         - eq: [content.error_code, '10007011']
+    teardown_hooks:
+        - ${set_send_email_captcha_limit($exist_internal_account_email, 0)}
 
 - test:
     name: email不存在
