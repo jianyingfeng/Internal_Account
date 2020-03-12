@@ -32,6 +32,12 @@ class OpMysql(object):
         if self.cur.rowcount == 1:
             self.conn.commit()
 
+    # 内部账号：删除fishID和内部账号ID的映射关系
+    def delete_relation_internal_fish(self, fish_id):
+        result = self.cur.execute('DELETE FROM relation_internal_fish WHERE fish_id=%s', (fish_id, ))
+        if self.cur.rowcount == 1:
+            self.conn.commit()
+
 if __name__ == '__main__':
     # 连接dev环境account库
     opmysql_account = OpMysql(host='rm-bp173j25673ah67z8ko.mysql.rds.aliyuncs.com', user='TestDep', password='4Ehp1ndpfnlN9D0qvg4SZuig', database='account')

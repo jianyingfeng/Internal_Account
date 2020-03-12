@@ -32,9 +32,5 @@ def generate_internal_account_token(host, user_id):
 def get_timeslot(time_date):
     return int(time.mktime(time.strptime(str(time_date), '%Y-%m-%d')))
 
-# 判断两个值是否相等
-def eval_equal(source, target):
-    return source == target
-
 if __name__ == '__main__':
     print(get_timeslot('2020-1-10'))

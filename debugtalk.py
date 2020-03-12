@@ -59,27 +59,30 @@ def fish_account_beisen_email():
 def fish_account_beisen_fishId():
     return fish_account_beisen.get('fish_id')
 
-# 读取内部账号 mysql 配置
+# 读取内部账号 mysql 配置，并且跳过正式环境
 def get_mysql_config_internal_account():
     if TEST_ENV != 'production':
         mysql_config_internal_account = read_config.read_config_mysql(TEST_ENV, 'internal_account')
         global opmysql_internal_account
         opmysql_internal_account = OpMysql(host=mysql_config_internal_account['host'], user=mysql_config_internal_account['user'], password=mysql_config_internal_account['password'], database=mysql_config_internal_account['database'])
 
+# 初始化mysql配置
+get_mysql_config_internal_account()
+
 def internal_account_delete_two_step_verification(user_id):
     opmysql_internal_account.internal_account_delete_two_step_verification(user_id)
 
-# 初始化mysql配置并且跳过正式环境
-get_mysql_config_internal_account()
+def delete_relation_internal_fish(fish_id):
+    opmysql_internal_account.delete_relation_internal_fish(fish_id)
 
-# 读取内部账号 redis 配置
+# 读取内部账号 redis 配置并跳过正式环境
 def get_redis_config():
     if TEST_ENV != 'production':
         redis_config = read_config.read_config_redis(TEST_ENV)
         global op_redis_internal_account
         op_redis_internal_account = OpRedis(host=redis_config['host'], port=redis_config['port'], password=redis_config['password'], db=2)
 
-# 初始化redis配置并跳过正式环境
+# 初始化redis配置
 get_redis_config()
 
 # 获取内部账号手机号验证码
@@ -89,6 +92,10 @@ def get_phone_number_captcha_internal_account(phone_number):
 # 设置内部账号邮件发送验证码的总次数
 def set_send_email_captcha_limit(email, value):
     return op_redis_internal_account.set_send_email_captcha_limit(email, value)
+
+# 判断两个值是否相等
+def eval_equal(source, target):
+    return source == target
 
 # 判断是否是dev或者test环境
 def is_dev_or_test():

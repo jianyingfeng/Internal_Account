@@ -1,0 +1,90 @@
+- config:
+    name: 将批量fishId转化为内部账号ID
+    base_url: ${ENV(internal_account_service_host)}
+    variables:
+        - internal_source_user_fish_id: ${internal_source_user_fish_id()}
+        - unexist_fish_id: 6000000
+
+- test:
+    name: fishIds长度为1，fishId未和内部账号ID建立关系，fishID绑定的邮箱在内部账号中存在
+    skipIf: ${is_production()}
+    setup_hooks:
+        - ${delete_relation_internal_fish($internal_source_user_fish_id)}
+    request:
+        method: POST
+        url: /accounts/convert/ids/fish-to-internal
+        json:
+            fish_ids: [$internal_source_user_fish_id]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 1]
+        - eq: [content.0.fish_id, $internal_source_user_fish_id]
+        - eq: [content.0.internal_id, '${internal_source_user_id()}']
+
+- test:
+    name: fishIds长度为1，fishId已和内部账号ID建立关系
+    request:
+        method: POST
+        url: /accounts/convert/ids/fish-to-internal
+        json:
+            fish_ids: [$internal_source_user_fish_id]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 1]
+        - eq: [content.0.fish_id, $internal_source_user_fish_id]
+        - eq: [content.0.internal_id, '${internal_source_user_id()}']
+
+- test:
+    name: fishIds长度为1，fishId不存在
+    request:
+        method: POST
+        url: /accounts/convert/ids/fish-to-internal
+        json:
+            fish_ids: [$unexist_fish_id]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 0]
+
+- test:
+    name: fishIds长度为2，两个元素相同，fishId未和内部账号ID建立关系但是fishID绑定邮箱在内部账号中存在
+    skipIf: ${is_production()}
+    setup_hooks:
+        - ${delete_relation_internal_fish($internal_source_user_fish_id)}
+    request:
+        method: POST
+        url: /accounts/convert/ids/fish-to-internal
+        json:
+            fish_ids: [$internal_source_user_fish_id, $internal_source_user_fish_id]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 1]
+        - eq: [content.0.fish_id, $internal_source_user_fish_id]
+        - eq: [content.0.internal_id, '${internal_source_user_id()}']
+
+- test:
+    name: fishIds长度为2，两个元素相同，fishId已和内部账号ID建立关系
+    request:
+        method: POST
+        url: /accounts/convert/ids/fish-to-internal
+        json:
+            fish_ids: [$internal_source_user_fish_id, $internal_source_user_fish_id]
+    validate:
+        - eq: [status_code, 200]
+        - type_match: [content, list]
+        - length_equals: [content, 1]
+        - eq: [content.0.fish_id, $internal_source_user_fish_id]
+        - eq: [content.0.internal_id, '${internal_source_user_id()}']
+
+- test:
+    name: fishIds长度为0(空数组)
+    request:
+        method: POST
+        url: /accounts/convert/ids/fish-to-internal
+        json:
+            fish_ids: []
+    validate:
+        - eq: [status_code, 400]
