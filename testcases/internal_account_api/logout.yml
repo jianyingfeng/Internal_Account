@@ -4,7 +4,8 @@
     verify: False
 
 - test:
-    name: 准备：生成登录token
+    name: 准备工作：service层生成登录token
+    skipIf: ${is_production()}
     api: api/internal_account_service/generate_token.yml
     variables:
         - id: ${internal_source_user_id()}
@@ -13,6 +14,7 @@
 
 - test:
     name: 用户已登录
+    skipIf: ${is_production()}
     request:
         method: POST
         url: /auth/logout

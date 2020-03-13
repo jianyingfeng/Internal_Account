@@ -5,6 +5,7 @@
 
 - test:
     name: 已登录
+    skipIf: ${is_production()}
     request:
         method: GET
         url: /applications/all

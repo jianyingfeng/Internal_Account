@@ -5,6 +5,7 @@
 
 - test:
     name: 已登录(传递正确的Authorization)
+    skipIf: ${is_production()}
     request:
         method: GET
         url: /auth/info
