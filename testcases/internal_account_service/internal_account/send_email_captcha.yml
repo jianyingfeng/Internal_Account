@@ -11,7 +11,7 @@
     skipIf: ${is_production()}
     setup_hooks:
         - ${set_send_email_captcha_limit($exist_internal_account_email, 0)}
-        - ${sleep_N_secs(1)}
+        - ${setup_hook_sleep_N_secs(1)}
     api: api/internal_account_service/send_email_captcha.yml
     variables:
         - email: $exist_internal_account_email

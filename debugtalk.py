@@ -20,11 +20,19 @@ internal_source_user = read_config.internal_source_user(TEST_ENV)
 def internal_source_user_email():
     return internal_source_user.get('email')
 
+def internal_source_reset_email():
+    return internal_source_user.get('reset_email')
+
 def internal_source_user_password():
     return internal_source_user.get('password')
 
+def internal_source_reset_password():
+    return internal_source_user.get('reset_password')
+
 def internal_source_user_id():
     return internal_source_user.get('id')
+def internal_source_reset_id():
+    return internal_source_user.get('reset_id')
 
 def internal_source_user_phone_number():
     return internal_source_user.get('phone_number')
@@ -93,6 +101,12 @@ def get_phone_number_captcha_internal_account(phone_number):
 def set_send_email_captcha_limit(email, value):
     return op_redis_internal_account.set_send_email_captcha_limit(email, value)
 
+#获取内部账号忘记密码的邮箱验证码
+def get_email_captcha(email):
+    return op_redis_internal_account.get_email_captcha_internal_account(email)
+    #print(op_redis_internal_account.get_email_captcha_internal_account(email))
+
+
 # 判断两个值是否相等
 def eval_equal(source, target):
     return source == target
@@ -108,5 +122,8 @@ def is_production():
 # 因为test中None会被解析为字符串，所以这里增加此函数
 def is_none(source):
     return True if source == None else False
+
+def setup_hook_sleep_N_secs(n_secs):
+    return time.sleep(n_secs)
 
 

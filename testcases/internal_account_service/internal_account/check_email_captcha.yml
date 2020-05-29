@@ -1,0 +1,95 @@
+- config:
+     name: 忘记之校验邮箱验证码
+     base_url: ${ENV(internal_account_service_host)}
+     variables:
+         - exist_internal_account_email: ${internal_source_reset_email()}
+         - unexist_internal_account_email: 123@11.com
+         - error_internal_account_email: 111
+         - wrong_captcha: '123'
+     output:
+         - credenTial
+
+
+#准备：发送邮箱验证码
+- test:
+    name: 准备工作：发送邮箱验证码
+    api: api/internal_account_service/send_email_captcha.yml
+    variables:
+        - email: $exist_internal_account_email
+    validate:
+        - eq: [status_code, 200]
+
+
+#校验验证码
+- test:
+     name: 邮箱不正确-密码正确-校验验证码不通过
+     skipIf: ${is_production()}
+     request:
+          method: POST
+          url: /accounts/forgot-password/captcha/check
+          json:
+              email: $unexist_internal_account_email
+              captcha: ${get_email_captcha($exist_internal_account_email)}
+     validate:
+         - eq: [status_code, 422]
+         - eq: [content.error_code,'10007008']
+
+
+- test:
+     name: 邮箱正确-密码正确-校验验证码通过
+     skipIf: ${is_production()}
+     request:
+          method: POST
+          url: /accounts/forgot-password/captcha/check
+          json:
+              email: $exist_internal_account_email
+              captcha: ${get_email_captcha($exist_internal_account_email)}
+     extract:
+         - credenTial: content.credential
+     validate:
+         - eq: [status_code, 200]
+         - contains: [content,credential]
+
+
+- test:
+     name: 邮箱正确-密码不正确-校验验证码不通过
+     skipIf: ${is_production()}
+     request:
+          method: POST
+          url: /accounts/forgot-password/captcha/check
+          json:
+              email: $exist_internal_account_email
+              captcha: $wrong_captcha
+     validate:
+         - eq: [status_code, 422]
+         - eq: [content.error_code,'10007008']
+
+
+- test:
+     name: 输入错误格式的邮箱
+     skipIf: ${is_production()}
+     request:
+          method: POST
+          url: /accounts/forgot-password/captcha/check
+          json:
+              email: $error_internal_account_email
+              captcha: $wrong_captcha
+     validate:
+         - eq: [status_code, 400]
+         - eq: [content.domain.0.name,'email']
+
+
+- test:
+     name: 输入空验证码
+     skipIf: ${is_production()}
+     request:
+          method: POST
+          url: /accounts/forgot-password/captcha/check
+          json:
+              email: $exist_internal_account_email
+              captcha: ''
+     validate:
+         - eq: [status_code, 400]
+         - eq: [content.domain.0.name,'captcha']
+
+
