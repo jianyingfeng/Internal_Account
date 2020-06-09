@@ -9,7 +9,7 @@
         url: /accounts/organizations/list?offset=0&limit=15
     validate:
         - eq: [status_code, 200]
-        - length_equals: [content.items.0, 12]
+        - length_greater_than: [content.items.0, 12]
         - contains: [content.items.0, id]
         - contains: [content.items.0, name]
         - contains: [content.items.0, short_name]

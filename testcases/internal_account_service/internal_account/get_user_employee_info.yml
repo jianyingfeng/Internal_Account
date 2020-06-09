@@ -36,7 +36,7 @@
         url: /accounts/${internal_source_user_id()}/employee
     validate:
         - eq: [status_code, 200]
-        - length_equals: [content, 14]
+        - length_greater_than: [content, 14]
         - eq: [content.id, '${internal_source_user_id()}']
         - contains: [content, department]
         - contains: [content, job_post]

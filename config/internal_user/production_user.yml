@@ -5,3 +5,6 @@ source_user:
   phone_number: '15889741219'
   department_id: 1224551
   relation_fish_id: 704
+  reset_id: 9578
+  reset_email: huhong1@extra.cn
+  reset_password: h1234567

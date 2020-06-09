@@ -47,7 +47,7 @@
         - eq: [status_code, 200]
         - type_match: [content, list]
         - length_equals: [content, 1]
-        - length_equals: [content.0, 14]
+        - length_greater_than: [content.0, 14]
         - eq: [content.0.id, '${internal_source_user_id()}']
         - contains: [content.0, department]
         - contains: [content.0, last_work_date]

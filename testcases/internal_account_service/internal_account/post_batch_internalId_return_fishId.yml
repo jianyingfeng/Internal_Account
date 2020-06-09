@@ -18,7 +18,7 @@
     validate:
         - eq: [status_code, 200]
         - type_match: [content, list]
-        - length_equals: [content, 0]
+        - length_greater_than: [content, 0]
 
 - test:
     name: 准备工作：fish_id和内部账号ID建立绑定关系

@@ -12,7 +12,7 @@
     validate:
         - eq: [status_code, 200]
         - length_equals: [content, 1]
-        - length_equals: [content.0, 12]
+        - length_greater_than: [content.0, 12]
         - eq: [content.0.id, '${internal_source_user_department_id()}']
         - contains: [content.0, name]
         - contains: [content.0, short_name]
