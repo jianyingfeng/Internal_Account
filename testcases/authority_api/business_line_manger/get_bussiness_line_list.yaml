@@ -1,0 +1,61 @@
+- config:
+    name: 获取业务线列表
+    base_url: ${ENV(authority_api_host)}
+    verify: False
+    variables:
+        - codeName: 'test_yewu'
+
+
+- test:
+    name: 查询全部业务线
+    request:
+        method: GET
+        url: /business-line/all
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.0.name, "落地"]
+
+
+
+- test:
+    name: 创建业务线-未创建
+    request:
+        method: POST
+        url: /business-line
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            name: "测试业务线"
+            code: $codeName
+    validate:
+        - eq: [status_code, 200]
+
+
+- test:
+    name: 创建业务线-已创建的创建失败
+    request:
+        method: POST
+        url: /business-line
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            name: "测试业务线"
+            code: $codeName
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code,"10007018"]
+        - contains: [content.error_name,"ExistedBusinessL"]
+
+
+- test:
+    name: 创建成功-获取业务线列表
+    request:
+        method: GET
+        url: /business-line
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.items.0.code, "$codeName"]

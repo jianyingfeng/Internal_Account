@@ -6,6 +6,8 @@ from common import read_config
 from common.util import *
 from common.op_mysql import OpMysql
 from common.op_redis import OpRedis
+import requests
+import json
 
 # 读取 .env 配置
 TEST_ENV = os.environ['environment']
@@ -13,6 +15,13 @@ TEST_ENV = os.environ['environment']
 INTERNAL_ACCOUNT_API_HOST = os.environ['internal_account_api_host']
 INTERNAL_ACCOUNT_SERVICE_HOST = os.environ['internal_account_service_host']
 AUHTORITY_API_HOST = os.environ['authority_api_host']
+TRANSACTION_API_HOST = os.environ['transaction_admin_api_host']
+REAG_DISCOVERY_CENTER_HOST = os.environ['read_discovery_center_host']
+REAG_DISCOVERY_CENTER_TOKEN = os.environ['read_discovery_center_token']
+
+#获取内部账号服务ip地址
+def get_internal_account_service_host():
+    return get_request_host_url(REAG_DISCOVERY_CENTER_HOST,INTERNAL_ACCOUNT_SERVICE_HOST,REAG_DISCOVERY_CENTER_TOKEN)
 
 # 获取内部账号配置数据
 internal_source_user = read_config.internal_source_user(TEST_ENV)
@@ -42,6 +51,7 @@ def internal_source_user_department_id():
 
 def internal_source_user_fish_id():
     return internal_source_user.get('relation_fish_id')
+
 
 # 获取内部账号系统token
 def internal_source_user_login_token():
@@ -101,9 +111,30 @@ def get_phone_number_captcha_internal_account(phone_number):
 def set_send_email_captcha_limit(email, value):
     return op_redis_internal_account.set_send_email_captcha_limit(email, value)
 
-#获取内部账号忘记密码的邮箱验证码
+# 获取内部账号忘记密码的邮箱验证码
 def get_email_captcha(email):
-    return op_redis_internal_account.get_email_captcha_internal_account(email)
+    captcha_value = op_redis_internal_account.get_email_captcha_internal_account(email)
+    if captcha_value == None:
+        host = get_internal_account_service_host()
+        url = host+'/accounts/forgot-password/email'
+        header = {"Content-Type": "application/json"}
+        data = {"email": email}
+        r = requests.post(url, headers=header, json=data)
+        if r.status_code == 200:
+            return op_redis_internal_account.get_email_captcha_internal_account(email)
+        elif r.status_code == 422 and r.json()['error_code'] == '10007011':
+            op_redis_internal_account.clear_email_limit_internal_account(email)
+            requests.post(url, headers=header, json=data)
+            time.sleep(3)
+            return op_redis_internal_account.get_email_captcha_internal_account(email)
+        elif r.status_code == 422 and r.json()['error_code'] == '10007007':
+            print("发送邮件频繁")
+            time.sleep(60)
+            requests.post(url, headers=header, json=data)
+            time.sleep(3)
+            return op_redis_internal_account.get_email_captcha_internal_account(email)
+    else:
+        return captcha_value
     #print(op_redis_internal_account.get_email_captcha_internal_account(email))
 
 

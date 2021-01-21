@@ -209,4 +209,4 @@ variables:
 3. variables变量优先级问题：testcase config > testcase test > testcase_def config > testcase_def test > api，output（export）的变量高于 teststep
 4. base_url优先级: testcase test > testcase config > testsuite test > testsuite config > api
 5. verify 优先级: testcase teststep (api) > testcase config > testsuite config
-6. 同一个testcase文件下的testcase共享相同的session。(each teststeps in one testcase share the same session)
+6. 同一个testc one testcase share the same session)ase文件下的testcase共享相同的session。(each teststeps in

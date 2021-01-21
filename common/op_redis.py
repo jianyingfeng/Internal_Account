@@ -23,14 +23,21 @@ class OpRedis(object):
 
     # 获取内部账号邮件验证码
     def get_email_captcha_internal_account(self, email):
-        key_name = 'internal_account:forgot_password:email:{}'.format(email)
+        key_name = 'internal_account:forgot_password:email:{}:type:LOGIN'.format(email)
         email_captcha_value = self.r.hget(key_name, 'captcha')
+        print(email_captcha_value)
         return email_captcha_value
+
+    #清除邮箱limit
+    def clear_email_limit_internal_account(self, email):
+        key_name = 'internal_account:forgot_password:limit:{}:type:LOGIN'.format(email)
+        self.r.delete(key_name)
+        return 0
 
     # 在Redis中设置值，默认不存在则创建，存在则修改
     # return True/False
     def set_send_email_captcha_limit(self, email, value):
-        key_name = 'internal_account:forgot_password:limit:{}'.format(email)
+        key_name = 'internal_account:forgot_password:limit:{}:type:LOGIN'.format(email)
         return self.r.set(key_name, value)
 
 

@@ -1,6 +1,6 @@
 - config:
     name: 获取所有职务列表
-    base_url: ${ENV(internal_account_service_host)}
+    base_url: ${get_internal_account_service_host()}
 
 - test:
     name: 职务列表不为空

@@ -1,6 +1,6 @@
 - config:
     name: 将fishid转化为内部账号id
-    base_url: ${ENV(internal_account_service_host)}
+    base_url: ${get_internal_account_service_host()}
     variables:
         - internal_source_user_fish_id: ${internal_source_user_fish_id()}
         - unexist_fish_id: 6000000

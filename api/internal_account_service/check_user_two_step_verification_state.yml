@@ -1,5 +1,5 @@
 name: 判断用户是否需要进行二次验证
-base_url: ${ENV(internal_account_service_host)}
+base_url: ${get_internal_account_service_host()}
 request:
     method: GET
     url: /accounts/auth/2-step-verification?user_id=$user_id

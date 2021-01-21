@@ -1,6 +1,6 @@
 - config:
     name: 通过批量组织id获取组织信息
-    base_url: ${ENV(internal_account_service_host)}
+    base_url: ${get_internal_account_service_host()}
 
 - test:
     name: ids长度为1组织存在

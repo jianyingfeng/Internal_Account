@@ -1,6 +1,6 @@
 - config:
     name: 内部账号Service：发送忘记密码邮件
-    base_url: ${ENV(internal_account_service_host)}
+    base_url: ${get_internal_account_service_host()}
     variables:
         - exist_internal_account_email: ${internal_source_user_email()}
         - unexist_internal_account_email: 123@11.com

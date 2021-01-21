@@ -28,6 +28,15 @@ def generate_internal_account_token(host, user_id):
     else:
         print("内部账号Service生成token失败，状态码为：{}".format(res.status_code))
 
+#通过接口动态获取服务ip
+def get_request_host_url(host,applicationName,token):
+    res = requests.get(host+'/eureka/apps/'+applicationName, headers={"Authorization": token, "Accept": 'application/json'})
+    if res.status_code == 200:
+        return res.json()['application']['instance'][0]['homePageUrl']
+    else:
+        print("获取服务地址失败，状态码为：{}".format(res.status_code))
+
+
 # 获取某具体时间的时间戳
 def get_timeslot(time_date):
     return int(time.mktime(time.strptime(str(time_date), '%Y-%m-%d')))

@@ -6,8 +6,8 @@ mysql:
     database: account
   internal_account:
     host: rm-bp1orqjl80dle29ur878.mysql.rds.aliyuncs.com
-    user: maxiaoqian
-    password: gB3h0VWWy8dpJAdhPkFsCeTj
+    user: huhong
+    password: WFk6B9FHA2alCOma6Aouhwtcdy4ZOOkr
     database: internal_account
 
 redis:

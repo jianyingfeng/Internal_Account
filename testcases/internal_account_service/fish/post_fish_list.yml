@@ -1,6 +1,6 @@
 - config:
     name: 批量拉取fish用户信息，目前只支持 id, username 筛选
-    base_url: ${ENV(internal_account_service_host)}
+    base_url: ${get_internal_account_service_host()}
     variables:
         - unexist_fish_account_id: 1111111111
 

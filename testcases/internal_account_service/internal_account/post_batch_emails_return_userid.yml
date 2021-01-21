@@ -1,6 +1,6 @@
 - config:
     name: 通过批量邮箱获取内部用户id
-    base_url: ${ENV(internal_account_service_host)}
+    base_url: ${get_internal_account_service_host()}
     variables:
         - unexist_internal_user_email: "codemaommmm@123.com"
 

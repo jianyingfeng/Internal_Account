@@ -1,5 +1,5 @@
 name: 内部账号Service：校验手机验证码
-base_url: ${ENV(internal_account_service_host)}
+base_url: ${get_internal_account_service_host()}
 request:
     method: POST
     url: /accounts/auth/captcha/check

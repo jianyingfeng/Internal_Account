@@ -1,10 +1,10 @@
 source_user:
-  id: 416
-  email: maxiaoqian@codemao.cn
-  password: Ma123456
-  phone_number: '15889741219'
+  id: 162
+  email: huhong@codemao.cn
+  password: h1234567
+  phone_number: '18018790522'
   department_id: 1004042
-  relation_fish_id: 704
-  reset_id: 8729
+  relation_fish_id: 141
+  reset_id: 14700
   reset_email: huhong1@codemao.cn
   reset_password: h1234567
