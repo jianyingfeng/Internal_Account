@@ -40,6 +40,10 @@ def internal_source_reset_password():
 
 def internal_source_user_id():
     return internal_source_user.get('id')
+
+def internal_source_identity():
+    return internal_source_user.get('identity')
+
 def internal_source_reset_id():
     return internal_source_user.get('reset_id')
 

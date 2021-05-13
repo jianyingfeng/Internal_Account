@@ -1,0 +1,117 @@
+config:
+    name: 内部账号系统登录
+    base_url: ${ENV(internal_account_api_host)}
+#    verify: False
+    variables:
+        - wrong_internal_source_user_password: '123'
+
+teststeps:
+-
+    name: 正常登录,appCode传""
+    request:
+        method: POST
+        url: /auth/login
+        headers:
+            x-captcha-ticket : ${get_jiyan_ticket()}
+            X-Captcha-Id : ""
+        json:
+            identity: ${internal_source_identity()}
+            password: ${internal_source_user_password()}
+            appCode: ""
+    validate:
+        - eq: [status_code, 200]
+        - length_equals: [content, 6]
+        - eq: [content.id, '${internal_source_user_id()}']
+        - contains: [content, token]
+        - contains: [content, phone_number]
+        - contains: [content, fullname]
+
+-
+              name: 正常登录,appCode传null
+              request:
+                  method: POST
+                  url: /auth/login
+                  headers:
+                      x-captcha-ticket: ${get_jiyan_ticket()}
+                      X-Captcha-Id: ""
+                  json:
+                      identity: ${internal_source_identity()}
+                      password: ${internal_source_user_password()}
+                      appCode: null
+              validate:
+                  - eq: [status_code, 200]
+                  - length_equals: [content, 6]
+                  - eq: [content.id, '${internal_source_user_id()}']
+                  - contains: [content, token]
+                  - contains: [content, phone_number]
+                  - contains: [content, fullname]
+
+-
+    name: 正常登录,不传appCode
+    request:
+        method: POST
+        url: /auth/login
+        headers:
+            x-captcha-ticket : ${get_jiyan_ticket()}
+            X-Captcha-Id : ""
+        json:
+            identity: ${internal_source_identity()}
+            password: ${internal_source_user_password()}
+    validate:
+        - eq: [status_code, 200]
+        - length_equals: [content, 6]
+        - eq: [content.id, '${internal_source_user_id()}']
+        - contains: [content, token]
+        - contains: [content, phone_number]
+        - contains: [content, fullname]
+
+-
+    name: 正常登录,appCode传"botemao"
+    request:
+        method: POST
+        url: /auth/login
+        headers:
+            x-captcha-ticket : ${get_jiyan_ticket()}
+            X-Captcha-Id : ""
+        json:
+            identity: ${internal_source_identity()}
+            password: ${internal_source_user_password()}
+    validate:
+        - eq: [status_code, 200]
+        - length_equals: [content, 6]
+        - eq: [content.id, '${internal_source_user_id()}']
+        - contains: [content, token]
+        - contains: [content, phone_number]
+        - contains: [content, fullname]
+
+-
+    name: 登录失败,appCode传" "
+    request:
+        method: POST
+        url: /auth/login
+        headers:
+            x-captcha-ticket : ${get_jiyan_ticket()}
+            X-Captcha-Id : ""
+        json:
+            identity: ${internal_source_identity()}
+            password: ${internal_source_user_password()}
+            appCode: " "
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007037"]
+
+-
+    name: 登录失败,appCode传"s"
+    request:
+        method: POST
+        url: /auth/login
+        headers:
+            x-captcha-ticket : ${get_jiyan_ticket()}
+            X-Captcha-Id : ""
+        json:
+            identity: ${internal_source_identity()}
+            password: ${internal_source_user_password()}
+            appCode: "s"
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007037"]
