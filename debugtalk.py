@@ -18,7 +18,7 @@ AUHTORITY_API_HOST = os.environ['authority_api_host']
 TRANSACTION_API_HOST = os.environ['transaction_admin_api_host']
 REAG_DISCOVERY_CENTER_HOST = os.environ['read_discovery_center_host']
 REAG_DISCOVERY_CENTER_TOKEN = os.environ['read_discovery_center_token']
-
+OPEN_SERVICE_HOST = os.environ['open_service_host']
 #获取内部账号服务ip地址
 def get_internal_account_service_host():
     return get_request_host_url(REAG_DISCOVERY_CENTER_HOST,INTERNAL_ACCOUNT_SERVICE_HOST,REAG_DISCOVERY_CENTER_TOKEN)
@@ -157,4 +157,14 @@ def is_none(source):
 def setup_hook_sleep_N_secs(n_secs):
     return time.sleep(n_secs)
 
-
+#获取极验ticket验证码
+def get_jiyan_ticket():
+    url = OPEN_SERVICE_HOST + '/captcha/rule'
+    data = {"pid": "hp_y9Wiw",
+            "identity": "18018790522",
+            "timestamp": 1587546656,
+            "deviceId": ""
+            }
+    r = requests.post(url,json=data)
+    ticket = r.json()['ticket']
+    return ticket

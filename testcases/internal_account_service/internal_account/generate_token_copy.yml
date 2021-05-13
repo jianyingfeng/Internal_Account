@@ -1,0 +1,117 @@
+config:
+    name: 内部账号Service生成token
+    base_url: ${get_internal_account_service_host()}
+    variables:
+        - unexist_internal_account_id: 1000000
+
+teststeps:
+-
+    name: 正常生成token,appCode传""
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            appCode: ""
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.expire_in,604800]
+
+-
+    name: 正常生成token,appCode传null
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            appCode: null
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.expire_in,604800]
+
+-
+    name: 正常生成token,appCode不传
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.expire_in,604800]
+
+-
+    name: 正常生成token,appCode传botemao
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            appCode: "botemao"
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.expire_in,604800]
+
+-
+    name: 生成token失败,appCode传" "
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            appCode: " "
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code,"10007037"]
+
+-
+    name: 生成token失败,appCode传" botemao"
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            appCode: " botemao"
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007037"]
+
+-
+    name: 生成token失败,appCode传"ss"
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: ${internal_source_user_id()}
+            appCode: "ss"
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007037"]
+
+-
+    name: 内部账号id不存在
+    request:
+        method: POST
+        url: /accounts/auth/sign
+        json:
+            id: $unexist_internal_account_id
+            appCode: ""
+            authorities: ["ROLE_ADMIN"]
+            ip: "192.168.101.24"
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007000"]

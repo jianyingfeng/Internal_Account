@@ -1,0 +1,29 @@
+config:
+    name: 通过DingTalkUserId获取钉钉用户详情
+    base_url: ${get_internal_account_service_host()}
+    variables:
+        - internal_source_user_id: 4292
+
+teststeps:
+-
+    name: 根据内部账号id获取钉钉id
+    request:
+        method: GET
+        url: /dingtalk/user/list-by-internal-ids?internalIds=$internal_source_user_id
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.0.internalId, 4292]
+        - eq: [content.0.dingTalkId, "152953669"]
+    extract:
+        - dingTalkId: content.0.dingTalkId
+
+-
+    name: 通过DingTalkUserId获取钉钉用户详情
+    request:
+        method: GET
+        url: /dingtalk/user/list-by-userId?dingTalkUserId=$dingTalkId
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.jobNumber, "C15427"]
+        - eq: [content.deptIdList, [368307085]]
+        - eq: [content.phoneNumber, "15707494858"]
