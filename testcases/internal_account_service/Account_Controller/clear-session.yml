@@ -1,0 +1,85 @@
+config:
+    name: 清除登录态
+    base_url: ${get_internal_account_service_host()}
+    variables:
+        - unexist_email: 'jyf@qq.com'
+        - email: ${internal_source_user_email()}
+        - illegal_email: 'jyf'
+
+teststeps:
+-
+    name: 单个清理登录态，输入正确的邮箱
+    request:
+        method: POST
+        url: /accounts/clear-session
+        json:
+            email: ${internal_source_user_email()}
+            ip: '123'
+            userId: 4292
+    validate:
+        - eq: [status_code, 200]
+
+-
+    name: 单个清理登录态，输入不存在的邮箱
+    request:
+        method: POST
+        url: /accounts/clear-session
+        json:
+            email: $unexist_email
+            ip: '123'
+            userId: 4292
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_name, "cn.codemao.service.platform.internal.account.exception.EmailNotFoundException"]
+
+-
+    name: 导入批量清理登录态,输入两个正确的邮箱
+    request:
+        method: POST
+        url: /accounts/import/clear-sessions
+        json:
+            emails: [$email,"1552304630@qq.com"]
+            ip: '123'
+            userId: 4292
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.successs, true]
+
+-
+    name: 导入批量清理登录态,输入一个正确的邮箱和一个不存在的邮箱
+    request:
+        method: POST
+        url: /accounts/import/clear-sessions
+        json:
+            emails: [$email,$unexist_email]
+            ip: '123'
+            userId: 4292
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.errorList.1.errorMsg, "jyf@qq.com：邮箱不存在"]
+
+-
+    name: 导入批量清理登录态,输入一个正确的邮箱和一个格式不正确的邮箱
+    request:
+        method: POST
+        url: /accounts/import/clear-sessions
+        json:
+            emails: [$email,$illegal_email]
+            ip: '123'
+            userId: 4292
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.errorList.1.errorMsg, "jyf：邮箱格式有误"]
+
+-
+    name: 导入批量清理登录态,输入两条重复的邮箱
+    request:
+        method: POST
+        url: /accounts/import/clear-sessions
+        json:
+            emails: [$email,$email]
+            ip: '123'
+            userId: 4292
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.errorList.1.errorMsg, "邮箱：1055193533@qq.com同第[2]行邮箱相同"]

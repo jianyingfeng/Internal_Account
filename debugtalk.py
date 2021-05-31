@@ -19,6 +19,7 @@ TRANSACTION_API_HOST = os.environ['transaction_admin_api_host']
 REAG_DISCOVERY_CENTER_HOST = os.environ['read_discovery_center_host']
 REAG_DISCOVERY_CENTER_TOKEN = os.environ['read_discovery_center_token']
 OPEN_SERVICE_HOST = os.environ['open_service_host']
+AUTHORITY_ADMIN_API_HOST = os.environ['authority_admin_api_host']
 #获取内部账号服务ip地址
 def get_internal_account_service_host():
     return get_request_host_url(REAG_DISCOVERY_CENTER_HOST,INTERNAL_ACCOUNT_SERVICE_HOST,REAG_DISCOVERY_CENTER_TOKEN)
@@ -60,7 +61,7 @@ def internal_source_user_fish_id():
 # 获取内部账号系统token
 def internal_source_user_login_token():
     #login_token= login_token_internal_account(INTERNAL_ACCOUNT_API_HOST, internal_source_user_email(), internal_source_user_password())
-    login_token = generate_internal_account_token(INTERNAL_ACCOUNT_SERVICE_HOST, internal_source_user_id())
+    login_token = generate_internal_account_token(get_internal_account_service_host(), internal_source_user_id())
     return login_token
 
 # 获取Fish账号配置信息

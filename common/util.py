@@ -22,7 +22,7 @@ def generate_internal_account_token(host, user_id):
         "id": user_id,
         "authorities": ["ROLE_ADMIN"]
     }
-    res = requests.post(host+'/accounts/auth/sign', json=data)
+    res = requests.post(host+'accounts/auth/sign', json=data)
     if res.status_code == 200:
         return 'Bearer '+res.json()['token']
     else:

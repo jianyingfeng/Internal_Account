@@ -15,6 +15,6 @@
         - eq: [status_code, 200]
         - length_equals: [content, 4]
         - eq: [content.id, '${internal_source_user_id()}']
-        - eq: [content.email, '${internal_source_user_email()}']
+        - eq: [content.email, '1055****@qq.com']
         - contains: [content, phone_number]
         - contains: [content, fullname]
