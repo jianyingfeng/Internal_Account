@@ -1,0 +1,27 @@
+config:
+    name: 查询应用列表
+    base_url: ${ENV(internal_account_api_host)}
+
+teststeps:
+-
+    name: 正常查询应用列表
+    request:
+        method: GET
+        url: /applications/all
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.0.name, "上课系统管理后台"]
+
+
+-
+    name: 异常查询，传错误的token
+    request:
+        method: GET
+        url: /applications/all
+        headers:
+            Authorization: Bearer eyJ0eXAiOiJKV1Qi
+    validate:
+        - eq: [status_code, 401]
+        - eq: [content.error_name, "org.springframework.security.authentication.InsufficientAuthenticationException"]
