@@ -1,0 +1,35 @@
+config:
+    name: 单个清除登录态
+    base_url: ${ENV(internal_account_api_host)}
+    variables:
+        - unexist_email: "jyf7788@qq.com"
+
+teststeps:
+-
+    name: 输入存在的邮箱
+    request:
+        method: POST
+        url: /account/clear-session
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            email: ${internal_source_user_email()}
+
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content, true]
+
+-
+    name: 输入不存在的邮箱
+    request:
+        method: POST
+        url: /account/clear-session
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            email: $unexist_email
+
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007036"]
+        - eq: [content.error_name, "cn.codemao.service.platform.internal.account.exception.EmailNotFoundException"]

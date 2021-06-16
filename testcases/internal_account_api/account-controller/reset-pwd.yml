@@ -1,0 +1,55 @@
+config:
+    name: 冻结&解冻
+    base_url: ${ENV(internal_account_api_host)}
+    variables:
+        - unexist_email: "jyf7788@qq.com"
+
+teststeps:
+-
+    name: 输入存在的邮箱，进行重置密码
+    request:
+        method: POST
+        url: /account/reset-pwd
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            email: ${internal_source_user_email()}
+
+    validate:
+        - eq: [status_code, 200]
+    extract :
+        - new_pwd: content
+
+-
+    name: 使用重置后的密码进行登录
+    request:
+        method: POST
+        url: ${ENV(internal_account_api_host)}/auth/login
+        headers:
+            x-captcha-ticket : ${get_jiyan_ticket()}
+            X-Captcha-Id : ""
+        json:
+            identity: ${internal_source_identity()}
+            password: $new_pwd
+            appCode: ""
+    validate:
+        - eq: [status_code, 200]
+        - length_equals: [content, 6]
+        - eq: [content.id, '${internal_source_user_id()}']
+        - contains: [content, token]
+        - contains: [content, phone_number]
+        - contains: [content, fullname]
+
+-
+    name: 输入不存在的邮箱，进行重置密码
+    request:
+        method: POST
+        url: /account/reset-pwd
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            email: $unexist_email
+    validate:
+        - eq: [status_code, 422]
+        - eq: [content.error_code, "10007036"]
+        - eq: [content.error_name, "cn.codemao.service.platform.internal.account.exception.EmailNotFoundException"]

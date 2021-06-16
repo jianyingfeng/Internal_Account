@@ -1,0 +1,19 @@
+config:
+    name: 根据邮箱冻结&解冻用户
+    base_url: ${get_internal_account_service_host()}
+    variables:
+        - user_id: ${internal_source_user_id()}
+
+teststeps:
+-
+    name: 批量按内部账号ID查询角色ID和名称
+    request:
+        method: POST
+        url: /role/search
+        json:
+            internalIds: [$user_id]
+            appIds: [3,4]
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.0.roleName, "超级管理员"]
+        - eq: [content.1.roleName, "财务管理员"]

@@ -1,0 +1,34 @@
+config:
+    name: 冻结&解冻
+    base_url: ${ENV(internal_account_api_host)}
+    variables:
+        - unexist_email: "jyf7788@qq.com"
+
+teststeps:
+-
+    name: 输入存在的邮箱，进行冻结
+    request:
+        method: POST
+        url: /account/frozen
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            email: ${internal_source_user_email()}
+
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content, true]
+
+-
+    name: 输入存在的邮箱，进行解冻
+    request:
+        method: POST
+        url: /account/unfreeze
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        json:
+            email: ${internal_source_user_email()}
+
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content, true]
