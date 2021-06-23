@@ -1,0 +1,20 @@
+config:
+    name: 根据上级id查询直接下级部门
+    base_url: ${ENV(internal_account_api_host)}
+    variables:
+        - unexist_email: '10551dd93533@qq.com'
+
+teststeps:
+-
+    name: 输入正确的部门id进行查询
+    request:
+        method: GET
+        url: /organizations/sub-dept-list
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+        params:
+            adminIds: 2238979
+            filter: ALL
+    validate:
+        - eq: [status_code,200]
+        - eq: [content.0.subDeptList.0.name,"飞书三级部门"]

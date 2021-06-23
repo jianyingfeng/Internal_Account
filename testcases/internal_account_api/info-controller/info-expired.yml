@@ -1,0 +1,17 @@
+config:
+    name: 查询账户密码过期状态
+    base_url: ${ENV(internal_account_api_host)}
+    variables:
+        - unexist_email: '10551dd93533@qq.com'
+
+teststeps:
+-
+    name: 密码不需要修改，返回false
+    request:
+        method: GET
+        url: /info/expired
+        headers:
+            Authorization: ${internal_source_user_login_token()}
+    validate:
+        - eq: [status_code,200]
+        - eq: [content,false]
