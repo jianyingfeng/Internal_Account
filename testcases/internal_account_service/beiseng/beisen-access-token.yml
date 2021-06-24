@@ -1,0 +1,20 @@
+config:
+  name: 获取北森组织人事&假勤accessToken
+  base_url: ${get_internal_account_service_host()}
+
+teststeps:
+-
+  name: 获取北森组织人事accessToken
+  request:
+    method: GET
+    url: /beisen/access-token
+  validate:
+    - eq: [content,YiSzliuGtU_Sl5f6WlksjI345B2tYH_KdU6JupKGnh0pXqmSW85BbbZRB3Nq2SwT]
+
+-
+  name: 获取北森假勤accessToken
+  request:
+    method: GET
+    url: /beisen/attendance-access-token
+  validate:
+    - eq: [content,YiSzliuGtU_Sl5f6WlksjI345B2tYH_KdU6JupKGnh0pXqmSW85BbbZRB3Nq2SwT]

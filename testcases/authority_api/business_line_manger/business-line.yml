@@ -1,0 +1,19 @@
+config:
+  name: 获取业务线列表
+  base_url: ${ENV(authority_api_host)}
+
+teststeps:
+-
+  name: 获取业务线列表
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line
+    method: GET
+    params:
+      page: 1
+      limit: 5
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.items.0.name,"口袋派"]
+    - eq: [content.limit,5]
