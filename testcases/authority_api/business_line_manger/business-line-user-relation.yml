@@ -1,0 +1,74 @@
+config:
+  name: 创建&删除&查询用户-业务线关系
+  base_url: ${ENV(authority_api_host)}
+  variables:
+    user_id: ${internal_source_user_id()}
+    email: ${internal_source_user_email()}
+
+teststeps:
+-
+  name: 创建用户-业务线关系
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/user-relation
+    method: POST
+    json:
+      businessLineId: 35
+      operators:  [
+    {
+      "userId": $user_id,
+      "operator": "ADD"
+    }
+  ]
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.success,true]
+
+-
+  name: 查询用户-业务线关系（验证新增成功）
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/user-relation
+    method: GET
+    params:
+      businessLineId: 35
+      limit: 500
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.items.0.userId,$user_id]
+    - eq: [content.items.0.email,$email]
+
+-
+  name: 删除用户-业务线关系
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/user-relation
+    method: POST
+    json:
+      businessLineId: 35
+      operators:  [
+    {
+      "userId": $user_id,
+      "operator": "DELETE"
+    }
+  ]
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.success,true]
+
+-
+  name: 查询用户-业务线关系(验证删除成功)
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/user-relation
+    method: GET
+    params:
+      businessLineId: 35
+      limit: 500
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.items,[]]

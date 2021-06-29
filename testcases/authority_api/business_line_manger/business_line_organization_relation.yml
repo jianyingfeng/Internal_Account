@@ -1,0 +1,64 @@
+config:
+  name: 创建组织架构-业务线关系&获取组织架构-业务线关系
+  base_url: ${ENV(authority_api_host)}
+
+teststeps:
+-
+  name: 创建组织业务线关系（创建成功）
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/organization-relation
+    method: POST
+    json:
+      businessLineId: 35
+      organizationIds: [
+    2238979
+  ]
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.success,true]
+
+-
+  name: 获取组织业务线关系
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/organization-relation
+    method: GET
+    params:
+      businessLineId: 35
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.0.businessId,35]
+    - eq: [content.0.organizationId,2238979]
+    - eq: [content.0.organizationName,"飞书二级部门"]
+
+-
+  name: 创建组织业务线关系（选择已被创建过的组织，创建失败）
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/organization-relation
+    method: POST
+    json:
+      businessLineId: 34
+      organizationIds: [
+    2238979
+  ]
+  validate:
+    - eq: [status_code,200]
+    - eq: [content.success,false]
+
+-
+  name: 获取组织业务线关系（验证上一条用例中的组织未被添加到业务线中）
+  request:
+    headers:
+      Authorization: ${internal_source_user_login_token()}
+    url: /business-line/organization-relation
+    method: GET
+    params:
+      businessLineId: 34
+  validate:
+    - eq: [status_code,200]
+    - eq: [content,[]]
