@@ -19,7 +19,7 @@
         - password: ${internal_source_user_password()}
     validate:
         - eq: [status_code, 422]
-        - eq: [content.error_code, '10007000']
+        - eq: [content.error_code, '10007060']
 
 - test:
     name: 用户ID存在-解冻账号

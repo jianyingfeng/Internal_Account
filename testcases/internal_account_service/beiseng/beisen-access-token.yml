@@ -9,7 +9,7 @@ teststeps:
     method: GET
     url: /beisen/access-token
   validate:
-    - eq: [content,YiSzliuGtU_Sl5f6WlksjI345B2tYH_KdU6JupKGnh0pXqmSW85BbbZRB3Nq2SwT]
+    - eq: [status_code, 200]
 
 -
   name: 获取北森假勤accessToken
@@ -17,4 +17,4 @@ teststeps:
     method: GET
     url: /beisen/attendance-access-token
   validate:
-    - eq: [content,YiSzliuGtU_Sl5f6WlksjI345B2tYH_KdU6JupKGnh0pXqmSW85BbbZRB3Nq2SwT]
+    - eq: [status_code, 200]

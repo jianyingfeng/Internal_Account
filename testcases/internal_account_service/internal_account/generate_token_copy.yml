@@ -17,7 +17,7 @@ teststeps:
             ip: "192.168.101.24"
     validate:
         - eq: [status_code, 200]
-        - eq: [content.expire_in,604800]
+        - eq: [content.expire_in,86400]
 
 -
     name: 正常生成token,appCode传null
@@ -31,7 +31,7 @@ teststeps:
             ip: "192.168.101.24"
     validate:
         - eq: [status_code, 200]
-        - eq: [content.expire_in,604800]
+        - eq: [content.expire_in,86400]
 
 -
     name: 正常生成token,appCode不传
@@ -44,7 +44,7 @@ teststeps:
             ip: "192.168.101.24"
     validate:
         - eq: [status_code, 200]
-        - eq: [content.expire_in,604800]
+        - eq: [content.expire_in,86400]
 
 -
     name: 正常生成token,appCode传botemao
@@ -58,7 +58,7 @@ teststeps:
             ip: "192.168.101.24"
     validate:
         - eq: [status_code, 200]
-        - eq: [content.expire_in,604800]
+        - eq: [content.expire_in,86400]
 
 -
     name: 生成token失败,appCode传" "
