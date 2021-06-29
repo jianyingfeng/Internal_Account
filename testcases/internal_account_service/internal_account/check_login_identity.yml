@@ -14,7 +14,6 @@
         - eq: [status_code, 200]
         - type_match: [content, dict]
         - eq: [content.id, '${internal_source_user_id()}']
-        - length_equals: [content, 1]
 
 - test:
     name: 邮箱正确-密码错误-账号为正式员工-未冻结
