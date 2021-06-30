@@ -1,10 +1,11 @@
 config:
     name: 重置密码
-#    base_url: ${get_internal_account_service_host()}
     variables:
         - unexist_email: 'jyf@qq.com'
         - email: ${internal_source_user_email()}
         - illegal_email: 'jyf'
+        - user_id: ${internal_source_user_id()}
+        - password: ${internal_source_user_password()}
 
 teststeps:
 -
@@ -146,3 +147,14 @@ teststeps:
     validate:
         - eq: [status_code, 200]
         - eq: [content.errorList.1.errorMsg, "邮箱：1055193533@qq.com同第[2]行邮箱相同"]
+
+-
+    name: 调用冻结接口，将密码复原
+    request:
+        method: PUT
+        url: ${get_internal_account_service_host()}/accounts/$user_id
+        json:
+            frozen: false
+            password: $password
+    validate:
+        - eq: [status_code, 200]
