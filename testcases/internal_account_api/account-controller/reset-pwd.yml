@@ -1,15 +1,17 @@
 config:
     name: 冻结&解冻
-    base_url: ${ENV(internal_account_api_host)}
+#    base_url: ${ENV(internal_account_api_host)}
     variables:
         - unexist_email: "jyf7788@qq.com"
+        - user_id: ${internal_source_user_id()}
+        - password: ${internal_source_user_password()}
 
 teststeps:
 -
     name: 输入存在的邮箱，进行重置密码
     request:
         method: POST
-        url: /account/reset-pwd
+        url: ${ENV(internal_account_api_host)}/account/reset-pwd
         headers:
             Authorization: ${internal_source_user_login_token()}
         json:
@@ -44,7 +46,7 @@ teststeps:
     name: 输入不存在的邮箱，进行重置密码
     request:
         method: POST
-        url: /account/reset-pwd
+        url: ${ENV(internal_account_api_host)}/account/reset-pwd
         headers:
             Authorization: ${internal_source_user_login_token()}
         json:
@@ -53,3 +55,14 @@ teststeps:
         - eq: [status_code, 422]
         - eq: [content.error_code, "10007036"]
         - eq: [content.error_name, "cn.codemao.service.platform.internal.account.exception.EmailNotFoundException"]
+
+-
+    name: 调用冻结接口，将密码复原
+    request:
+        method: PUT
+        url: ${get_internal_account_service_host()}/accounts/$user_id
+        json:
+            frozen: false
+            password: $password
+    validate:
+        - eq: [status_code, 200]
